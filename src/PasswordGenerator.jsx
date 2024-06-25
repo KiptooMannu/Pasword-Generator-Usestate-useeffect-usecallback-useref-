@@ -1,13 +1,20 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import styles from './PasswordGenerator.module.scss';
+import './PasswordGenerator.module.scss'; // Importing the CSS file
 
+// Main PasswordGenerator component
 function PasswordGenerator() {
+  // State variables for the password, length, inclusion of numbers and symbols
   const [password, setPassword] = useState('');
   const [length, setLength] = useState(12);
   const [includeNumbers, setIncludeNumbers] = useState(true);
   const [includeSymbols, setIncludeSymbols] = useState(true);
-  const passwordRef = useRef(null);
+  const passwordRef = useRef(null); // Reference for the password input field
 
+
+
+
+
+  // Function to generate the password, memoized with useCallback
   const generatePassword = useCallback(() => {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const numbers = '0123456789';
@@ -25,20 +32,23 @@ function PasswordGenerator() {
 
     setPassword(newPassword);
   }, [length, includeNumbers, includeSymbols]);
+  
 
+  // useEffect to generate a password when the component mounts and when dependencies change
   useEffect(() => {
     generatePassword();
   }, [generatePassword]);
 
+  // Function to copy the password to clipboard
   const handleCopy = () => {
     passwordRef.current.select();
     document.execCommand('copy');
   };
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <h1>Password Generator</h1>
-      <div className={styles.settings}>
+      <div className="settings">
         <label>
           Length:
           <input
@@ -65,19 +75,19 @@ function PasswordGenerator() {
           Include Symbols
         </label>
       </div>
-      <div className={styles.result}>
+      <div className="result">
         <input
           type="text"
           value={password}
           readOnly
           ref={passwordRef}
-          className={styles.password}
+          className="password"
         />
-        <button onClick={handleCopy} className={styles.copyButton}>
+        <button onClick={handleCopy} className="copyButton">
           Copy
         </button>
       </div>
-      <button onClick={generatePassword} className={styles.generateButton}>
+      <button onClick={generatePassword} className="generateButton">
         Generate Password
       </button>
     </div>
